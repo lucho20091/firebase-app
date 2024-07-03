@@ -3,7 +3,9 @@ import {  getAuth,
           createUserWithEmailAndPassword,
           signInWithEmailAndPassword,
           signOut,
-          onAuthStateChanged   } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js'
+          onAuthStateChanged,
+          GoogleAuthProvider,
+          signInWithPopup    } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js'
 
 const firebaseConfig = {
   apiKey: "AIzaSyCWiKCdvpT65gHcrsuYdb4L76a4ApE360g",
@@ -17,8 +19,11 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-console.log(auth)
-console.log(app.options.projectId)
+const provider = new GoogleAuthProvider();
+
+
+// console.log(auth)
+// console.log(app.options.projectId)
 
 
 
@@ -53,7 +58,16 @@ showLoggedOutView()
 /* = Functions - Firebase - Authentication = */
 
 function authSignInWithGoogle() {
-    console.log("Sign in with Google")
+    signInWithPopup(auth, provider)
+      .then(result => {
+        // const credential = GoogleAuthProvider.getCredentials.credentialFromResult(result)
+        // const token = credential.accessToken
+        // const user = result.user
+        console.log(result)
+      })
+      .catch(error => {
+        console.log(error)
+      })
 }
 
 function authSignInWithEmail() {
@@ -61,8 +75,6 @@ function authSignInWithEmail() {
     const password = passwordInputEl.value
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
-        console.log(userCredential)
-        console.log("Sign in with email and password")
       })
       .catch((error) =>{
         console.log(error)
@@ -76,8 +88,6 @@ function authCreateAccountWithEmail() {
     createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) =>{
         clearAuthFields() 
-        console.log(userCredential)
-        console.log("Sign up with email and password")
       })
       .catch((error) => {
         console.log(error)
@@ -97,7 +107,6 @@ function authSignOut(){
 onAuthStateChanged(auth, (user) => {
   if (user) {
     showLoggedInView()
-    console.log(user)
   } else {
     showLoggedOutView()
   }
