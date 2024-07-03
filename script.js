@@ -7,6 +7,8 @@ import {  getAuth,
           GoogleAuthProvider,
           signInWithPopup,
           updateProfile    } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-auth.js'
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore.js'
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyCWiKCdvpT65gHcrsuYdb4L76a4ApE360g",
@@ -20,7 +22,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig)
 const auth = getAuth(app)
 const provider = new GoogleAuthProvider()
+const db = getFirestore(app)
 
+console.log(db)
 /* === UI === */
 
 /* == UI - Elements == */
